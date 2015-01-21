@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html>
+
+    <head>
+        <title>About Rango</title>
+    </head>
+
+    <body>
+        <h1>Rango says...</h1>
+        here is the <strong>{{ boldmessage }}</strong> <br/>
+        <img src="{% static "coxy.jpg" %}" alt="Dr. Cox says 'deal with it!'"/> <br/>
+        <a href="/rango/">index</a>
+    </body>
+</html>
