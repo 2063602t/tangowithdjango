@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from rango.models import Category
 
 # Create your views here.
 def index(request):
+    # Query the database (via the object-model) for a list of ALL categories
+    # Order the response by the no. of likes in descending order.
+    # Retrieve the top 5 or all if there are fewer than five
+    category_list = Category.objects.order_by('-likes')[:5]
     # Construct a dictionary to pass the template engine as its context.
-    # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-    context_dict = {'boldmessage': "I am bold font from the context"}
+    context_dict = {'categories': category_list}
 
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
