@@ -8,6 +8,7 @@ admin.site.register(model_or_iterable=Category)
 class PageAdmin(admin.ModelAdmin):
     fields = ["category", "title", "url", "views"]
     list_display = ("title", "category", "url")
+    list_filter = ['category']
 
 
 admin.site.register(model_or_iterable=Page, admin_class=PageAdmin)
