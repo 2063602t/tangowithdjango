@@ -54,12 +54,12 @@ def populate():
             print "- {0} - {1}".format(str(c), str(p))
 
 
-def add_page(cat, title, url, views=Page.views.default):
+def add_page(cat, title, url, views=0):
     p = Page.objects.get_or_create(category=cat, title=title, url=url, views=views)
     return p
 
 
-def add_cat(name, views=Category.views.default, likes=Category.likes.default):
+def add_cat(name, views=0, likes=0):
     c = Category.objects.get_or_create(name=name, views=views, likes=likes)[0]
     return c
 
