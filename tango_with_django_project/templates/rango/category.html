@@ -8,6 +8,7 @@
     <body>
         <h1>{{ category_name }}</h1>
         {% if category %}
+            <a href="/rango/category/{{ category.slug }}/add_page/">Add a new page to this category</a> <br/>
             {% if pages %}
             <ul>
                 {% for page in pages %}
@@ -18,7 +19,8 @@
                 there doesn't seem to be anything here
             {% endif %}
         {% else %}
-            The specified category {{ category_name }} does not exist!
+            The specified category {{ category_name }} does not exist! <br/>
+            <a href="/rango/add_category/">Click here to create this category</a>
         {% endif %}
     </body>
 </html>
