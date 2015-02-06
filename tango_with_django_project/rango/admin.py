@@ -1,5 +1,5 @@
 from django.contrib import admin
-from rango.models import Category, Page
+from rango.models import Category, Page, UserProfile
 
 
 # Register your models here.
@@ -17,3 +17,10 @@ class PageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(model_or_iterable=Page, admin_class=PageAdmin)
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    exclude = ()
+
+
+admin.site.register(model_or_iterable=UserProfile, admin_class=UserProfileAdmin)

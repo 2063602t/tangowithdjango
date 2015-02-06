@@ -102,3 +102,5 @@ STATICFILES_DIRS = (
     STATIC_PATH,
     MEDIA_ROOT
 )
+
+LOGIN_URL = '/rango/login/'

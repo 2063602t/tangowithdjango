@@ -9,7 +9,19 @@
     </head>
 
     <body>
-        <h1>Rango says... hello world!</h1>
+        {% if user.is_authenticated %}
+            <a href="/rango/logout/">logout</a>
+        {% else %}
+            <a href="/rango/login/">Login</a>|<a href="/rango/register/">Register Here</a> <br />
+        {% endif %}
+        <h1>
+            Rango says... hello
+            {% if user.is_authenticated %}
+                {{ user.username }}!
+            {% else %}
+                world!
+            {% endif %}
+        </h1>
 
         {% if categories %}
             <h2>Top five most liked categories</h2>
@@ -36,7 +48,7 @@
         {% endif %}
 
         <a href="/rango/about/">About</a><br/>
-        <img src="{% static 'images/MakoThumbsUp.png' %}" alt="Good job!" /> <br/>
+        <img src="{% static 'images/MakoThumbsUp.png' %}" alt="Good job!" sizes="100x100"/> <br/>
         <a href="/rango/add_category/">Add a new Category</a><br/>
     </body>
 </html>
