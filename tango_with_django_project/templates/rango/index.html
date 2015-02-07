@@ -1,54 +1,40 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
 {% load staticfiles %}
 
-<html>
+{% block title %}Hello{% endblock %}
 
-    <head>
-        <title>Rango</title>
-    </head>
-
-    <body>
+{% block body_block %}
+    <h1>
+        Rango says... hello
         {% if user.is_authenticated %}
-            <a href="/rango/logout/">logout</a>
+            {{ user.username }}!
         {% else %}
-            <a href="/rango/login/">Login</a>|<a href="/rango/register/">Register Here</a> <br />
+            world!
         {% endif %}
-        <h1>
-            Rango says... hello
-            {% if user.is_authenticated %}
-                {{ user.username }}!
-            {% else %}
-                world!
-            {% endif %}
-        </h1>
+    </h1>
 
-        {% if categories %}
-            <h2>Top five most liked categories</h2>
-            <ul>
-                {% for category in categories %}
-                <li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <strong>There are no categories present.</strong>
-        {% endif %}
+    {% if categories %}
+    <h2>Top five most liked categories</h2>
+    <ul>
+        {% for category in categories %}
+        <li><a href="{% url 'category' category.slug %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <strong>There are no categories present.</strong>
+    {% endif %}
 
-        <br/>
+    <br/>
 
-        {% if pages %}
-            <h2>Top five most viewed pages</h2>
-            <ul>
-                {% for page in pages %}
-                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <strong>there doesn't seem to be anything here</strong>
-        {% endif %}
-
-        <a href="/rango/about/">About</a><br/>
-        <img src="{% static 'images/MakoThumbsUp.png' %}" alt="Good job!" sizes="100x100"/> <br/>
-        <a href="/rango/add_category/">Add a new Category</a><br/>
-    </body>
-</html>
+    {% if pages %}
+    <h2>Top five most viewed pages</h2>
+    <ul>
+        {% for page in pages %}
+        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <strong>there doesn't seem to be anything here</strong>
+    {% endif %}
+{% endblock %}
