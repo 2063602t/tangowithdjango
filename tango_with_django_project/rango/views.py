@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from datetime import datetime
 
 
 # Create your views here.
@@ -13,20 +14,43 @@ def index(request):
     # Order the response by the no. of likes in descending order.
     # Retrieve the top 5 or all if there are fewer than five
     category_list = Category.objects.order_by('-likes')[:5]
-    # Construct a dictionary to pass the template engine as its context.
-    context_dict = {'categories': category_list}
-
     page_list = Page.objects.order_by('-views')[:5]
-    context_dict['pages'] = page_list
+    # Construct a dictionary to pass the template engine as its context.
+    context_dict = {'categories': category_list, 'pages': page_list}
 
-    # Return a rendered response to send to the client.
-    # We make use of the shortcut function to make our lives easier.
-    # Note that the first parameter is the template we wish to use.
+    visits = request.session.get('visits', 0)
+    reset_last_visit_time = False
+
+    last_visit = request.session.get('last_visit')
+    if last_visit:
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+
+        if (datetime.now() - last_visit_time).days > 0:
+            # ...reassign the value of the cookie to +1 of what it was before...
+            visits += 1
+            # ...and update the last visit cookie, too.
+            reset_last_visit_time = True
+    else:
+        # Cookie last_visit doesn't exist, so flag that it should be set.
+        reset_last_visit_time = True
+
+    if reset_last_visit_time:
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = visits
+    context_dict['visits'] = visits
+
+    # Return response back to user, updating any cookies that need changed.
     return render(request, 'rango/index.html', context_dict)
 
 
 def about(request):
-    context_dict = {'boldmessage': "about page!"}
+    visits = request.session.get('visits', 0)
+    # if visits >= 1:
+    #     first_visit = False
+    # else:
+    #     first_visit = True
+
+    context_dict = {'boldmessage': "about page!", 'visits': visits}
     return render(request, 'rango/about.html', context_dict)
 
 

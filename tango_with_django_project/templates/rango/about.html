@@ -7,5 +7,10 @@
 {% block body_block %}
     <h1>Rango says...</h1>
     here is the <strong>{{ boldmessage }}</strong> <br/>
-    <img src="{% static 'coxy.jpg' %}" alt="Dr. Cox says 'deal with it!'"/> <br/>
+    {% if visits >= 1 %}
+        Welcome back! You've been to this site {{ visits }} time{% if visits > 1 %}s{% endif %}!
+    {% else %}
+        This appears to be your first time here. Welcome!
+    {% endif %} <br />
+    <img src="{% static 'coxy.jpg' %}" alt="Dr. Cox says 'deal with it!'"/>
 {% endblock %}
