@@ -38,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rango'
+    'rango',
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,4 +104,6 @@ STATICFILES_DIRS = (
     MEDIA_ROOT
 )
 
-LOGIN_URL = '/rango/login/'
+REGISTRATION_OPEN = False
+LOGIN_REDIRECT_URL = '/rango/'
+LOGIN_URL = '/accounts/login/'
