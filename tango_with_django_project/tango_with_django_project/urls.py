@@ -18,8 +18,8 @@ urlpatterns = patterns('',
 
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^rango/', include('rango.urls')),
-                       url(r'^accounts/change_password/$', password_change, {'post_change_redirect': '/rango/'},
-                           name='password_change'),
+                       url(r'^accounts/password/change/$', password_change, {'post_change_redirect': '/rango/'},
+                           name='auth_password_change'),
                        url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
                        url(r'^accounts/', include('registration.backends.simple.urls')),
 )

@@ -1,14 +1,15 @@
-{% extends "base.html" %}
+{% extends "page_header.html" %}
 
-{% block body_block %}
-    <h1>Login</h1>
-        <form method="post" action=".">
-            {% csrf_token %}
-            {{ form.as_p }}
+{% block header_block %}Login{% endblock %}
 
-            <input type="submit" value="login" />
-            <input type="hidden" name="next" value="{{ next }}" />
-        </form>
+{% block page_block %}
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
 
-        <p> Not a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+
+    <p> Not a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
 {% endblock %}

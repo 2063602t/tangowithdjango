@@ -50,7 +50,7 @@ def about(request):
     # else:
     #     first_visit = True
 
-    context_dict = {'boldmessage': "about page!", 'visits': visits}
+    context_dict = {'boldmessage': "Rango's about page!", 'visits': visits}
     return render(request, 'rango/about.html', context_dict)
 
 

@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'page_header.html' %}
 
 {% load staticfiles %}
 
 {% block title %}Add new page{% endblock %}
 
-{% block body_block %}
-    <h1>Add a page to {{ category.name }}</h1>
+{% block header_block %}Add a page to {{ category.name }}{% endblock %}
 
+{% block page_block %}
     <form id="page_form" method="post" action="{% url 'add_page' %}">
 
         {% csrf_token %}
