@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.contrib.auth.views import password_change,password_change_done
 from django.conf import settings
 from django.conf.urls.static import static
 from registration.backends.simple.views import RegistrationView
@@ -16,7 +17,9 @@ urlpatterns = patterns('',
 
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^rango/', include('rango.urls')),
-                       url(r'^accounts/register/$', MyRegistrationView.as_view(),name='registration_register'),
+                       url(r'^accounts/change_password/$', password_change, name='password_change'),
+                       url(r'^accounts/change_password_done/$', password_change_done, name='password_change_done'),
+                       url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
                        url(r'^accounts/', include('registration.backends.simple.urls')),
                        )
 
