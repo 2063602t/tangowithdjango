@@ -1,15 +1,15 @@
-{% extends "page_header.html" %}
+{% extends "base.html" %}
 
-{% block header_block %}Login{% endblock %}
+{% block body_block %}
+    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet">
 
-{% block page_block %}
-    <form method="post" action=".">
+    <form class="form-signin" role="form" method="post" action=".">
         {% csrf_token %}
-        {{ form.as_p }}
 
-        <input type="submit" value="login" />
-        <input type="hidden" name="next" value="{{ next }}" />
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+        <input class="form-control" placeholder="Password" id="id_password" type="password" name="password" required />
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="Submit">Sign in</button>
     </form>
-
-    <p> Not a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
 {% endblock %}
