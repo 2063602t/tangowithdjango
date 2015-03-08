@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from rango.models import Category, Page
+from rango.models import Category, Page, UserProfile, User
 from rango.forms import CategoryForm, PageForm, UserProfileForm
 from datetime import datetime
 from rango.bing_search import run_query
@@ -45,7 +45,7 @@ def index(request):
 def about(request):
     visits = request.session.get('visits', 0)
     # if visits >= 1:
-    #     first_visit = False
+    # first_visit = False
     # else:
     #     first_visit = True
 
@@ -55,18 +55,29 @@ def about(request):
 
 def category(request, category_name_slug):
     # Create a context dictionary which we can pass to the template rendering engine.
-    context_dict = {}
+    context_dict = dict()
+    context_dict['result_list'] = None
+    context_dict['query'] = None
+
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+
+        if query:
+            # Run our Bing function to get the results list!
+            result_list = run_query(query)
+            context_dict['result_list'] = result_list
+            context_dict['query'] = query
 
     try:
         # Can we find a category name slug with the given name?
         # If we can't, the .get() Method raises a DoesNotExist exception.
         # So th .get() method returns one model instance, or raises an exception.
         category = Category.objects.get(slug=category_name_slug)
-        context_dict = {'category_name': category.name}
+        context_dict['category_name'] = category.name
 
         # Retrieve all of the associated pages.
         # Note that the filter returns >= 1 model instance.
-        pages = Page.objects.filter(category=category)
+        pages = Page.objects.filter(category=category).order_by('-views')
 
         # Adds our results list to the template context under name "pages".
         context_dict['pages'] = pages
@@ -144,18 +155,32 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context_dict)
 
 
-def search(request):
-
-    result_list = list()
-
+@login_required
+def register_profile(request):
+    user = request.user
     if request.method == 'POST':
-        query = request.POST['query'].strip()
+        profile_form = UserProfileForm(request.POST, request.FILES)
 
-        if query:
-            # Run our Bing function to get the results list!
-            result_list = run_query(query)
+        if profile_form.is_valid():
+            new_profile = profile_form.save(commit=False)
+            current_profile = UserProfile.objects.get_or_create(user=User.objects.get_by_natural_key(user.username))[0]
+            current_profile.website = new_profile.website
+            current_profile.picture = new_profile.picture
+            current_profile.save()
 
-    return render(request, 'rango/search.html', {'result_list': result_list})
+    else:
+        profile_form = UserProfileForm
+
+    return render(request, 'rango/profile_registration.html', {'profile_form': profile_form})
+
+
+def profile(request, username):
+    user = User.objects.get_by_natural_key(username)
+    user_profile = UserProfile.objects.get_or_create(user=user)[0]
+    website = user_profile.website
+    picture = user_profile.picture
+    return render(request, 'rango/profile.html',
+                  {'picture': picture.name, 'website': website, 'user_name': user.username})
 
 
 def track_url(request):
@@ -163,7 +188,7 @@ def track_url(request):
     if request.method == "GET":
         if 'page_id' in request.GET:
             page_id = request.GET['page_id']
-            page = Page.objects.get_or_create(page_id=page_id)[0]
+            page = Page.objects.get(page_id=page_id)[0]
             page.vews += 1
             page.save()
             url = page.url

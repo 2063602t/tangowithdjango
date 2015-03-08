@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} {{ user_name }} @ Rango {% endblock %}
+
+{% block body_block %}
+    {% if user.is_authenticated %}{% if user.username == user_name %}
+    <a href="{% url 'register_profile' %}">change website or image</a>
+    {% endif %}{% endif %}
+    <div class="page-header"><h1>{{ user_name }}</h1></div>
+    <img src="{% static picture %}" alt="{{ user_name }}'s profile picture"/>
+    <a href="{{website}}">{{ website }}</a>
+{% endblock %}

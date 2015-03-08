@@ -45,6 +45,7 @@ class PageForm(forms.ModelForm):
         # or specify the fields to include (i.e. not include the category field)
         # fields = ('title', 'url', 'views',)
 
+
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 

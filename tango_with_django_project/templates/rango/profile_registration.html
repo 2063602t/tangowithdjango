@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Register profile{% endblock %}
+
+{% block body_block %}
+    <form role="form" method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Additional Profile details</h2>
+        {{ profile_form.as_p }}
+        <button type="submit">submit</button>
+    </form>
+{% endblock %}
