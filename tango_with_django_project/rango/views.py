@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
 from datetime import datetime
+from rango.bing_search import run_query
 
 
 # Create your views here.
@@ -140,3 +141,17 @@ def add_page(request, category_name_slug):
     context_dict = {'form': form, 'category': cat}
 
     return render(request, 'rango/add_page.html', context_dict)
+
+
+def search(request):
+
+    result_list = list()
+
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+
+        if query:
+            # Run our Bing function to get the results list!
+            result_list = run_query(query)
+
+    return render(request, 'rango/search.html', {'result_list': result_list})
