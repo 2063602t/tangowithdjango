@@ -1,10 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, redirect
 from django.db import IntegrityError
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from rango.models import Category, Page
-from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from rango.forms import CategoryForm, PageForm, UserProfileForm
 from datetime import datetime
 from rango.bing_search import run_query
 
@@ -75,6 +73,9 @@ def category(request, category_name_slug):
         # We also add the category object from the database to the context dictionary.
         # We'll use this in the template to verify that the category exists
         context_dict['category'] = category
+
+        # Increment view count
+        category.views += 1
     except Category.DoesNotExist:
         # We get here if we didn't find the specified category.
         # Don't do anything - the template displays the "no category" message for us.
@@ -155,3 +156,15 @@ def search(request):
             result_list = run_query(query)
 
     return render(request, 'rango/search.html', {'result_list': result_list})
+
+
+def track_url(request):
+    url = '/rango/'
+    if request.method == "GET":
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
+            page = Page.objects.get_or_create(page_id=page_id)[0]
+            page.vews += 1
+            page.save()
+            url = page.url
+    return redirect(url)
