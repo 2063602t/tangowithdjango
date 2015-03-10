@@ -64,7 +64,7 @@ def category(request, category_name_slug):
 
         if query:
             # Run our Bing function to get the results list!
-            result_list = run_query(query)
+            result_list = run_query(query + ' ' + category_name_slug)
             context_dict['result_list'] = result_list
             context_dict['query'] = query
 
