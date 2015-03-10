@@ -22,9 +22,9 @@ TEMPLATE_PATH = os.path.join(BASE_DIR, "templates")
 SECRET_KEY = 'i*^-z^@%!^5q2kwp7*^3h!koe&wl-gdboycrzm11v%yof0@e3o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ['2063602t.pythonanywhere.com']
 
@@ -99,9 +99,11 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # absolute path to the media directory
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'deploy_static')
+
 STATICFILES_DIRS = (
     STATIC_PATH,
-    MEDIA_ROOT
+    MEDIA_ROOT,
 )
 
 REGISTRATION_OPEN = True
