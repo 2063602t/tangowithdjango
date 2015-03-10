@@ -22,7 +22,7 @@ TEMPLATE_PATH = os.path.join(BASE_DIR, "templates")
 SECRET_KEY = 'i*^-z^@%!^5q2kwp7*^3h!koe&wl-gdboycrzm11v%yof0@e3o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = False
 

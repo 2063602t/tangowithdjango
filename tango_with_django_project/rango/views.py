@@ -143,7 +143,7 @@ def add_page(request, category_name_slug):
                 page.category = cat
                 page.views = 0
                 page.save()
-                # probably better to use a redirect her.
+                # probably better to use a redirect here.
                 return category(request, category_name_slug)
         else:
             print form.errors
@@ -188,8 +188,8 @@ def track_url(request):
     if request.method == "GET":
         if 'page_id' in request.GET:
             page_id = request.GET['page_id']
-            page = Page.objects.get(page_id=page_id)[0]
-            page.vews += 1
+            page = Page.objects.get(id=page_id)
+            page.views += 1
             page.save()
             url = page.url
     return redirect(url)

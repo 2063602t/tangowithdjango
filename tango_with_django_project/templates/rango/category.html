@@ -7,7 +7,7 @@
 {% block header_block %}{{ category_name }}{% endblock %}
 
 {% block page_block %}
-    {% if user.authenticated %}
+    {% if user.is_authenticated %}
     <div class="row" id="search">
         <div class="panel panel-primary">
             <br />
@@ -48,7 +48,7 @@
             {% if pages %}
                 <ul>
                     {% for page in pages %}
-                        <li><a href="{% url 'goto'  %}?page_id={{ page.page_id }}">{{ page.title }}</a></li>
+                        <li><a href="{% url 'goto'  %}?page_id={{ page.id }}">{{ page.title }}</a></li>
                     {% endfor %}
                 </ul>
             {% else %}
